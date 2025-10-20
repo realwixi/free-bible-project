@@ -35,7 +35,11 @@ function App() {
   useEffect(() => {
     const loadKJV = async () => {
       try {
-  const response = await fetch('/public/bible/bible_kjv.csv');
+        const response = await fetch(
+          '/public/bible/bible_kjv.csv'
+        ).catch(() =>
+          fetch('https://raw.githubusercontent.com/realwixi/free-bible-project/main/public/bible/bible_kjv.csv')
+        );
         const csvText = await response.text();
         const parsed = await parseKJVCsv(csvText);
         setKjvData(parsed);
@@ -57,7 +61,11 @@ function App() {
           setBooks(booksList);
           setSelectedBook(booksList[0]);
         } else if (version === 'NABRE') {
-          const response = await fetch('/public/bible/bible-all-books.json');
+          const response = await fetch(
+            '/public/bible/bible-all-books.json'
+          ).catch(() =>
+            fetch('https://raw.githubusercontent.com/realwixi/free-bible-project/main/public/bible/bible-all-books.json')
+          );
           const data = await response.json();
           setBooks(data);
           setSelectedBook(data[0]);
@@ -89,7 +97,9 @@ function App() {
             setBookData(book);
           }
         } else if (version === 'NABRE') {
-          const response = await fetch(`/public/bible/books/${selectedBook}.json`);
+          const response = await fetch(`/public/bible/books/${selectedBook}.json`).catch(() =>
+            fetch(`https://raw.githubusercontent.com/realwixi/free-bible-project/main/public/bible/books/${selectedBook}.json`)
+          );
           const data: Book = await response.json();
           setBookData(data);
         }
