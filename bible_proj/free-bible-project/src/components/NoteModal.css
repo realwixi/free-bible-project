@@ -1,0 +1,234 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.note-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--sidebar-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow: hidden;
+  z-index: 1001;
+  animation: slideUp 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.note-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-modal-btn:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+.note-modal-verse {
+  padding: 1rem 1.5rem;
+  background-color: var(--highlight-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.note-verse-reference {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.note-version-tag {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.note-verse-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.note-modal-body {
+  padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.note-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.optional-hint {
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.note-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.2s ease;
+}
+
+.note-textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.note-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.note-modal-actions-left,
+.note-modal-actions-right {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.note-delete-btn,
+.note-cancel-btn,
+.note-save-btn {
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.note-delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.note-delete-btn:hover {
+  background-color: #c82333;
+}
+
+.note-cancel-btn {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.note-cancel-btn:hover {
+  background-color: var(--hover-bg);
+}
+
+.note-save-btn {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.note-save-btn:hover {
+  background-color: #3a7bc8;
+  transform: scale(1.02);
+}
+
+.note-save-btn:active {
+  transform: scale(0.98);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .note-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .note-modal-header,
+  .note-modal-verse,
+  .note-modal-body,
+  .note-modal-footer {
+    padding: 1rem;
+  }
+
+  .note-modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .note-modal-actions-left,
+  .note-modal-actions-right {
+    width: 100%;
+  }
+
+  .note-delete-btn,
+  .note-cancel-btn,
+  .note-save-btn {
+    flex: 1;
+  }
+}
