@@ -83,14 +83,14 @@
 }
 
 .send-notes-btn {
-  background: linear-gradient(90deg, #bfa14a 0%, #ffd700 100%);
-  color: #fff8dc;
-  box-shadow: 0 2px 8px rgba(191,161,74,0.08);
+  background: linear-gradient(90deg, #25D366 0%, #20BA5A 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37,211,102,0.08);
 }
 
 .send-notes-btn:hover:not(:disabled) {
-  background: linear-gradient(90deg, #ffd700 0%, #bfa14a 100%);
-  box-shadow: 0 4px 16px rgba(191,161,74,0.12);
+  background: linear-gradient(90deg, #20BA5A 0%, #25D366 100%);
+  box-shadow: 0 4px 16px rgba(37,211,102,0.12);
 }
 
 .send-notes-btn:disabled {
@@ -238,6 +238,22 @@
   font-size: 0.8rem;
   color: var(--text-secondary);
   text-align: right;
+}
+
+.notes-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+  box-shadow: 0 1px 6px rgba(220,53,69,0.12);
 }
 
 /* Mobile styles */

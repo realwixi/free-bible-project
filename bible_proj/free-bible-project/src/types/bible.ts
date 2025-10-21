@@ -13,4 +13,4 @@ export interface Book {
   chapters: Chapter[];
 }
 
-export type BibleVersion = 'KJV' | 'NABRE';
+export type BibleVersion = 'KJV' | 'TA';

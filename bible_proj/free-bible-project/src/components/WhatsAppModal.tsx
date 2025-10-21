@@ -10,7 +10,7 @@ interface WhatsAppModalProps {
 }
 
 export const WhatsAppModal = ({ isOpen, onClose, notes }: WhatsAppModalProps) => {
-  const [countryCode, setCountryCode] = useState('+1');
+  const [countryCode, setCountryCode] = useState('+91');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSending, setIsSending] = useState(false);
 

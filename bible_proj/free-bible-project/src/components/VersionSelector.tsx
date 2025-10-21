@@ -16,8 +16,8 @@ export const VersionSelector = ({ currentVersion, onVersionChange }: VersionSele
         onChange={(e) => onVersionChange(e.target.value as BibleVersion)}
         className="version-select"
       >
-        <option value="KJV">King James Version (KJV)</option>
-        <option value="NABRE">New American Bible Revised Edition (NABRE)</option>
+  <option value="KJV">King James Version (KJV)</option>
+  <option value="TA">தமிழ் பைபிள் (Tamil Bible)</option>
       </select>
     </div>
   );

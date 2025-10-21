@@ -18,6 +18,7 @@ function App() {
   const [version, setVersion] = useState<BibleVersion>('KJV');
   const [books, setBooks] = useState<string[]>([]);
   const [selectedBook, setSelectedBook] = useState<string>('');
+  const [tamilBookMap, setTamilBookMap] = useState<Record<string, string>>({});
   const [selectedChapter, setSelectedChapter] = useState<number>(1);
   const [bookData, setBookData] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,11 +57,19 @@ function App() {
           const booksList = getKJVBooksList(kjvData);
           setBooks(booksList);
           setSelectedBook(booksList[0]);
-        } else if (version === 'NABRE') {
-          const response = await fetch('https://raw.githubusercontent.com/realwixi/free-bible-project/main/bible_proj/free-bible-project/public/bible/bible-all-books.json');
+          setTamilBookMap({});
+        } else if (version === 'TA') {
+          const response = await fetch('/bible/Bible-tamil-main/Books.json');
           const data = await response.json();
-          setBooks(data);
-          setSelectedBook(data[0]);
+          // Build Tamil-to-English map
+          const booksList = data.map((b: any) => b.book.tamil.trim());
+          const bookMap: Record<string, string> = {};
+          data.forEach((b: any) => {
+            bookMap[b.book.tamil.trim()] = b.book.english;
+          });
+          setBooks(booksList);
+          setTamilBookMap(bookMap);
+          setSelectedBook(booksList[0]);
         }
       } catch (error) {
         console.error('Error loading books:', error);
@@ -88,10 +97,21 @@ function App() {
           if (book) {
             setBookData(book);
           }
-        } else if (version === 'NABRE') {
-          const response = await fetch(`https://raw.githubusercontent.com/realwixi/free-bible-project/main/bible_proj/free-bible-project/public/bible/books/${selectedBook}.json`);
-          const data: Book = await response.json();
-          setBookData(data);
+        } else if (version === 'TA') {
+          // Map Tamil name to English filename
+          const englishBook = tamilBookMap[selectedBook] || selectedBook;
+          const response = await fetch(`/bible/Bible-tamil-main/${englishBook}.json`);
+          const data = await response.json();
+          setBookData({
+            book: data.book.english,
+            chapters: data.chapters.map((ch: any) => ({
+              chapter: Number(ch.chapter),
+              verses: ch.verses.map((v: any) => ({
+                verse: Number(v.verse),
+                text: v.text
+              }))
+            }))
+          });
         }
         setSelectedChapter(1); // Reset to chapter 1 when book changes
       } catch (error) {
@@ -102,7 +122,7 @@ function App() {
     };
 
     loadBookData();
-  }, [selectedBook, version, kjvData]);
+  }, [selectedBook, version, kjvData, tamilBookMap]);
 
   const handleBookSelect = (book: string) => {
     setSelectedBook(book);

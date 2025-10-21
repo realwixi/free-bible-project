@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ShareModal } from './ShareModal';
 import type { Verse } from '../types/bible';
 import type { VerseNote } from '../types/notes';
 import './VerseDisplay.css';
@@ -22,6 +23,7 @@ export const VerseDisplay = ({
 }: VerseDisplayProps) => {
   const [selectedVerse, setSelectedVerse] = useState<number | null>(null);
   const [hoveredVerse, setHoveredVerse] = useState<number | null>(null);
+  const [shareModal, setShareModal] = useState<{ open: boolean; verse?: Verse } | null>(null);
 
   const formatBookName = (book: string) => {
     // If book already has spaces (like "1 Samuel"), return as-is
@@ -80,22 +82,53 @@ export const VerseDisplay = ({
               )}
             </span>
             <span className="verse-text">{verse.text}</span>
-            {(hoveredVerse === verse.verse || selectedVerse === verse.verse) && onAddNote && (
-              <button
-                className="add-note-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAddNote(verse);
-                }}
-                title={hasNote(verse.verse) ? "Edit note" : "Add note"}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                {hasNote(verse.verse) ? 'Edit' : 'Note'}
-              </button>
+            {(hoveredVerse === verse.verse || selectedVerse === verse.verse) && (
+              <>
+                {onAddNote && (
+                  <button
+                    className="add-note-btn verse-action-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddNote(verse);
+                    }}
+                    title={hasNote(verse.verse) ? "Edit note" : "Add note"}
+                  >
+                    {/* Note icon only, no text */}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                )}
+                <button
+                  className="share-verse-btn verse-action-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShareModal({ open: true, verse });
+                  }}
+                  title="Share this verse"
+                >
+                  {/* Dove icon for share */}
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 12c2.5-1.5 6.5-2 10-2s7.5 0.5 10 2c-2.5 1.5-6.5 2-10 2s-7.5-0.5-10-2z" opacity=".2"/>
+                    <path d="M21 12c-2.5-1.5-6.5-2-10-2S3.5 10.5 1 12c2.5 1.5 6.5 2 10 2s7.5-0.5 10-2z" fill="#fff"/>
+                    <path d="M12 2c1.5 2.5 2 6.5 2 10s-0.5 7.5-2 10c-1.5-2.5-2-6.5-2-10s0.5-7.5 2-10z" opacity=".2"/>
+                    <path d="M12 21c1.5-2.5 2-6.5 2-10s-0.5-7.5-2-10c-1.5 2.5-2 6.5-2 10s0.5 7.5 2 10z" fill="#fff"/>
+                    <path d="M12 12l6-6M12 12l-6-6" stroke="#25D366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </>
             )}
+      {shareModal?.open && shareModal.verse && (
+        <ShareModal
+          isOpen={true}
+          onClose={() => setShareModal(null)}
+          verseText={shareModal.verse.text}
+          bookName={bookName}
+          chapter={chapterNumber}
+          verse={shareModal.verse.verse}
+        />
+      )}
           </div>
         ))}
       </div>

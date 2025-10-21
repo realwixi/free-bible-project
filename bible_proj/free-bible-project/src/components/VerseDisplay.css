@@ -1,3 +1,75 @@
+/* Consistent action button styles for note and share */
+/* Circular action buttons for note and share */
+.verse-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  max-width: 42px;
+  max-height: 42px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  background: #f7b731;
+  color: #fff;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.verse-action-btn svg {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.verse-action-btn span,
+.verse-action-btn .btn-text {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: inherit;
+  line-height: 1;
+}
+.add-note-btn.verse-action-btn {
+  background: #f7b731;
+  color: #fff;
+}
+.add-note-btn.verse-action-btn:hover {
+  background: #ffd700;
+  color: #222;
+}
+.share-verse-btn.verse-action-btn {
+  background: linear-gradient(90deg, #25D366 0%, #20BA5A 100%);
+  color: #fff;
+}
+.share-verse-btn.verse-action-btn:hover {
+  background: linear-gradient(90deg, #20BA5A 0%, #25D366 100%);
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .verse-action-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    max-width: 36px;
+    max-height: 36px;
+    font-size: 0.9rem;
+  }
+  .verse-action-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
 .verse-display {
   padding: 2rem;
   max-width: 900px;

@@ -4,7 +4,7 @@ import { VersionSelector } from './VersionSelector';
 import './Sidebar.css';
 
 interface SidebarProps {
-  books: string[];
+  books: Array<string> | Array<{ english: string; tamil: string }>;
   selectedBook: string;
   selectedChapter: number;
   chapterCount: number;
@@ -14,6 +14,7 @@ interface SidebarProps {
   onVersionChange: (version: BibleVersion) => void;
   isOpen: boolean;
   onClose: () => void;
+  showTamil?: boolean;
 }
 
 export const Sidebar = ({
@@ -26,15 +27,23 @@ export const Sidebar = ({
   onChapterSelect,
   onVersionChange,
   isOpen,
-  onClose
+  onClose,
+  showTamil
 }: SidebarProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredBooks = useMemo(() => {
     if (!searchTerm) return books;
-    return books.filter(book => 
-      book.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    if (typeof books[0] === 'string') {
+      return (books as string[]).filter(book =>
+        book.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      return (books as { english: string; tamil: string }[]).filter(book =>
+        book.tamil.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.english.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
   }, [books, searchTerm]);
 
   const formatBookName = (book: string) => {
@@ -73,19 +82,37 @@ export const Sidebar = ({
         </div>
 
         <div className="books-list">
-          {filteredBooks.map((book) => (
-            <div key={book} className="book-item">
-              <button
-                className={`book-button ${selectedBook === book ? 'active' : ''}`}
-                onClick={() => {
-                  onBookSelect(book);
-                  if (window.innerWidth < 768) onClose();
-                }}
-              >
-                {formatBookName(book)}
-              </button>
-            </div>
-          ))}
+          {filteredBooks.map((book) => {
+            if (typeof book === 'string') {
+              return (
+                <div key={book} className="book-item">
+                  <button
+                    className={`book-button ${selectedBook === book ? 'active' : ''}`}
+                    onClick={() => {
+                      onBookSelect(book);
+                      if (window.innerWidth < 768) onClose();
+                    }}
+                  >
+                    {formatBookName(book)}
+                  </button>
+                </div>
+              );
+            } else {
+              return (
+                <div key={book.english} className="book-item">
+                  <button
+                    className={`book-button ${selectedBook === book.english ? 'active' : ''}`}
+                    onClick={() => {
+                      onBookSelect(book.english);
+                      if (window.innerWidth < 768) onClose();
+                    }}
+                  >
+                    {showTamil ? book.tamil.trim() : formatBookName(book.english)}
+                  </button>
+                </div>
+              );
+            }
+          })}
         </div>
 
         {selectedBook && (
